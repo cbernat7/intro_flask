@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -16,7 +17,7 @@ def create_app(test_config=None):
         # load the test config is passed in
         app.config.from_mapping(test_config)
 
-    # ensure instance foder exists
+    # ensure instance folder exists
     try:
         os.makedirs(app.instance_path)
     except OSError:
@@ -32,5 +33,9 @@ def create_app(test_config=None):
 
     from . import auth
     app.register_blueprint(auth.bp)
+
+    from . import blog
+    app.register_blueprint(blog.bp)
+    app.add_url_rule('/', endpoint='index')
 
     return app
